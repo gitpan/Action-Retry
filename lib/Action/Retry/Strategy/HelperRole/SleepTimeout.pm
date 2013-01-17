@@ -8,7 +8,7 @@
 #
 package Action::Retry::Strategy::HelperRole::SleepTimeout;
 {
-  $Action::Retry::Strategy::HelperRole::SleepTimeout::VERSION = '0.10';
+  $Action::Retry::Strategy::HelperRole::SleepTimeout::VERSION = '0.11';
 }
 
 # ABSTRACT: Helper to be consumed by Action::Retry Strategies, to enable giving up retrying when the sleep_time is too big
@@ -27,7 +27,7 @@ around needs_to_retry => sub {
     my $self = shift;
     defined $self->max_sleep_time
       or return $orig->($self, @_);
-    $orig->($self, @_) && $self->sleep_time < $self->max_sleep_time
+    $orig->($self, @_) && $self->compute_sleep_time < $self->max_sleep_time
 };
 
 1;
@@ -41,7 +41,7 @@ Action::Retry::Strategy::HelperRole::SleepTimeout - Helper to be consumed by Act
 
 =head1 VERSION
 
-version 0.10
+version 0.11
 
 =head1 AUTHOR
 

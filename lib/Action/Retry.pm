@@ -8,7 +8,7 @@
 #
 package Action::Retry;
 {
-  $Action::Retry::VERSION = '0.10';
+  $Action::Retry::VERSION = '0.11';
 }
 
 # ABSTRACT: Module to try to perform an action, with various ways of retrying and sleeping between retries.
@@ -46,7 +46,7 @@ has on_failure_code => (
 
 has strategy => (
     is => 'ro',
-    required => 1,
+    defaults => sub { 'Constant' },
     coerce => sub {
         my $attr = $_[0];
         blessed($attr)
@@ -118,9 +118,9 @@ sub run {
 
         if ($self->non_blocking) {
             my ($seconds, $microseconds) = gettimeofday;
-            $self->_needs_sleeping_until($seconds * 1000 + int($microseconds / 1000) + $self->strategy->sleep_time);
+            $self->_needs_sleeping_until($seconds * 1000 + int($microseconds / 1000) + $self->strategy->compute_sleep_time);
         } else {
-            usleep($self->strategy->sleep_time * 1000);
+            usleep($self->strategy->compute_sleep_time * 1000);
             $self->strategy->next_step;
         }
     }
@@ -138,16 +138,64 @@ Action::Retry - Module to try to perform an action, with various ways of retryin
 
 =head1 VERSION
 
-version 0.10
+version 0.11
 
 =head1 SYNOPSIS
 
   use Action::Retry;
+
+  # Simple usage, will attempt to run the code, retrying if it dies, retrying
+  # 10 times max, sleeping 1 second between retries
+
+  Action::Retry->new( attempt_code => sub { ... } )->run();
+
+
+  # Same, but sleep time is doubling each time
+
   my $action = Action::Retry->new(
     attempt_code => sub { ... },
     strategy => 'Linear',
   );
   $action->run();
+
+
+  # Same, but sleep time is following the Fibonacci sequence
+
+  my $action = Action::Retry->new(
+    attempt_code => sub { ... },
+    strategy => 'Fibonacci',
+  );
+  $action->run();
+
+
+  # The code to check if the attempt succeeded can be customized. Strategies
+  # can take arguments. Code on failure can be specified.
+
+  my $action = Action::Retry->new(
+    attempt_code => sub { ... },
+    retry_if_code => sub { $_[0] =~ /Connection lost/ || $_[1] > 20 },
+    strategy => { Fibonacci => { multiplicator => 2000,
+                                 initial_term_index => 3,
+                                 max_retries_number => 5,
+                               }
+                },
+    on_failure_code => sub { say "Given up retrying" },
+  );
+  $action->run();
+
+
+  # Retry code in non-blocking way
+
+  my $action = Action::Retry->new(
+    attempt_code => sub { ...},
+    non_blocking => 1,
+  );
+  while (1) {
+    # if the action failed, it doesn't sleep
+    # next time it's called, it won't do anything until it's time to retry
+    $action->run();
+    # do something else while time goes on
+  }
 
 =head1 ATTRIBUTES
 
@@ -182,6 +230,8 @@ If given, the code to run when retries are given up.
 
 =head2 strategy
 
+  ro, defaults to 'Constant'
+
 The strategy for managing retrying times, sleeping, and giving up. It must be
 an object that does the L<Action::Retry::Strategy> role.
 
@@ -195,6 +245,8 @@ and the value of that key will be treated as the args to pass to C<new>.
 Some existing stragies classes are L<Action::Retry::Strategy::Constant>,
 L<Action::Retry::Strategy::Fibonacci>, L<Action::Retry::Strategy::Linear>.
 
+Defaults to C<'Constant'>
+
 =head2 non_blocking
 
   ro, defaults to 0
@@ -205,7 +257,7 @@ retries, the C<run()> command will immediately return. Subsequent call to
 C<run()> will immediately return, until the time to sleep has been elapsed.
 This allows to do things like that:
 
-  my $action = Action::Retry( ... , non_blocking => 1 );
+  my $action = Action::Retry->new( ... , non_blocking => 1 );
   while (1) {
     # if the action failed, it doesn't sleep
     # next time it's called, it won't do anything until it's time to retry
@@ -248,7 +300,7 @@ results back to the caller.
 
 =back
 
-=head 1 SEE ALSO
+=head1 SEE ALSO
 
 I created this module because the other related modules I found didn't exactly
 do what I wanted. Here is the list and why:
@@ -272,6 +324,8 @@ No custom checking code. Strange exception catching behavior. No retry strategie
 =item AnyEvent::Retry
 
 Depends on AnyEvent, and Moose. Strategies are less flexibles, and they don't have sleep timeouts (only max tries).
+
+=back
 
 =head1 AUTHOR
 

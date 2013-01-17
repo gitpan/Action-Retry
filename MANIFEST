@@ -8,11 +8,13 @@ README
 dist.ini
 lib/Action/Retry.pm
 lib/Action/Retry/Strategy.pm
+lib/Action/Retry/Strategy/Constant.pm
 lib/Action/Retry/Strategy/Fibonacci.pm
 lib/Action/Retry/Strategy/HelperRole/RetriesLimit.pm
 lib/Action/Retry/Strategy/HelperRole/SleepTimeout.pm
 lib/Action/Retry/Strategy/Linear.pm
 t/00-compile.t
+t/constant.t
 t/fibonacci.t
 t/linear.t
 t/nonblocking.t

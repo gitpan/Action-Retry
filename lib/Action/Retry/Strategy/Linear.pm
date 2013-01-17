@@ -8,7 +8,7 @@
 #
 package Action::Retry::Strategy::Linear;
 {
-  $Action::Retry::Strategy::Linear::VERSION = '0.10';
+  $Action::Retry::Strategy::Linear::VERSION = '0.11';
 }
 
 # ABSTRACT: Linear incrementation of sleep time strategy
@@ -48,9 +48,9 @@ sub reset {
     my ($self) = @_;
     $self->_clear_current_sleep_time;
     return;
-};
+}
 
-sub sleep_time {
+sub compute_sleep_time {
     my ($self) = @_;
     return $self->_current_sleep_time;
 }
@@ -59,7 +59,7 @@ sub next_step {
     my ($self) = @_;
     $self->_current_sleep_time($self->_current_sleep_time * $self->multiplicator);
     return;
-};
+}
 
 sub needs_to_retry { 1 }
 
@@ -80,7 +80,7 @@ Action::Retry::Strategy::Linear - Linear incrementation of sleep time strategy
 
 =head1 VERSION
 
-version 0.10
+version 0.11
 
 =head1 SYNOPSIS
 

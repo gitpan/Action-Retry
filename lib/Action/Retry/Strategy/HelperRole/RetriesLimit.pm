@@ -8,7 +8,7 @@
 #
 package Action::Retry::Strategy::HelperRole::RetriesLimit;
 {
-  $Action::Retry::Strategy::HelperRole::RetriesLimit::VERSION = '0.10';
+  $Action::Retry::Strategy::HelperRole::RetriesLimit::VERSION = '0.11';
 }
 
 # ABSTRACT: Helper to be consumed by Action::Retry Strategies, to enable giving up retrying after a number of retries
@@ -60,7 +60,7 @@ Action::Retry::Strategy::HelperRole::RetriesLimit - Helper to be consumed by Act
 
 =head1 VERSION
 
-version 0.10
+version 0.11
 
 =head1 AUTHOR
 

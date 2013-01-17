@@ -8,7 +8,7 @@
 #
 package Action::Retry::Strategy;
 {
-  $Action::Retry::Strategy::VERSION = '0.10';
+  $Action::Retry::Strategy::VERSION = '0.11';
 }
 
 # ABSTRACT: Srategy role that any Action::Retry strategy should consume
@@ -17,7 +17,7 @@ use namespace::autoclean;
 use Moo::Role;
 
 requires 'needs_to_retry';
-requires 'sleep_time';
+requires 'compute_sleep_time';
 requires 'next_step';
 requires 'reset';
 
@@ -32,7 +32,7 @@ Action::Retry::Strategy - Srategy role that any Action::Retry strategy should co
 
 =head1 VERSION
 
-version 0.10
+version 0.11
 
 =head1 AUTHOR
 
