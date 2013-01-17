@@ -8,7 +8,7 @@
 #
 package Action::Retry::Strategy::Constant;
 {
-  $Action::Retry::Strategy::Constant::VERSION = '0.11';
+  $Action::Retry::Strategy::Constant::VERSION = '0.12';
 }
 
 # ABSTRACT: Constant sleep time strategy
@@ -49,7 +49,7 @@ Action::Retry::Strategy::Constant - Constant sleep time strategy
 
 =head1 VERSION
 
-version 0.11
+version 0.12
 
 =head1 SYNOPSIS
 
@@ -61,7 +61,7 @@ To be used as strategy in L<Action::Retry>
 
   ro, Int, defaults to 1000
 
-The number of microseconds to wait between retries
+The number of milliseconds to wait between retries
 
 =head2 max_retries_number
 

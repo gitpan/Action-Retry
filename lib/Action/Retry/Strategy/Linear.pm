@@ -8,7 +8,7 @@
 #
 package Action::Retry::Strategy::Linear;
 {
-  $Action::Retry::Strategy::Linear::VERSION = '0.11';
+  $Action::Retry::Strategy::Linear::VERSION = '0.12';
 }
 
 # ABSTRACT: Linear incrementation of sleep time strategy
@@ -80,7 +80,7 @@ Action::Retry::Strategy::Linear - Linear incrementation of sleep time strategy
 
 =head1 VERSION
 
-version 0.11
+version 0.12
 
 =head1 SYNOPSIS
 
@@ -92,7 +92,7 @@ To be used as strategy in L<Action::Retry>
 
   ro, Int, defaults to 1000
 
-The number of microseconds to wait for the first retry
+The number of milliseconds to wait for the first retry
 
 =head2 multiplicator
 
