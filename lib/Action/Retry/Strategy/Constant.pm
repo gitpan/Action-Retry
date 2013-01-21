@@ -8,7 +8,7 @@
 #
 package Action::Retry::Strategy::Constant;
 {
-  $Action::Retry::Strategy::Constant::VERSION = '0.12';
+  $Action::Retry::Strategy::Constant::VERSION = '0.13';
 }
 
 # ABSTRACT: Constant sleep time strategy
@@ -49,7 +49,7 @@ Action::Retry::Strategy::Constant - Constant sleep time strategy
 
 =head1 VERSION
 
-version 0.12
+version 0.13
 
 =head1 SYNOPSIS
 

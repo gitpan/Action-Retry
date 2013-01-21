@@ -7,7 +7,9 @@ use Module::Build 0.3601;
 
 my %module_build_args = (
   "build_requires" => {
-    "Module::Build" => "0.3601"
+    "Module::Build" => "0.3601",
+    "Test::Most" => 0,
+    "Test::Pretty" => 0
   },
   "configure_requires" => {
     "ExtUtils::MakeMaker" => "6.30",
@@ -18,7 +20,7 @@ my %module_build_args = (
     "Damien \"dams\" Krotkine"
   ],
   "dist_name" => "Action-Retry",
-  "dist_version" => "0.12",
+  "dist_version" => "0.13",
   "license" => "perl",
   "module_name" => "Action::Retry",
   "recommends" => {},
@@ -28,7 +30,8 @@ my %module_build_args = (
     "Module::Runtime" => 0,
     "Moo" => 0,
     "Scalar::Util" => 0,
-    "Time::HiRes" => 0
+    "Time::HiRes" => 0,
+    "namespace::autoclean" => 0
   },
   "script_files" => []
 );
