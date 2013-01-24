@@ -8,7 +8,7 @@
 #
 package Action::Retry::Strategy;
 {
-  $Action::Retry::Strategy::VERSION = '0.15';
+  $Action::Retry::Strategy::VERSION = '0.16';
 }
 
 # ABSTRACT: Srategy role that any Action::Retry strategy should consume
@@ -24,6 +24,7 @@ requires 'reset';
 1;
 
 __END__
+
 =pod
 
 =head1 NAME
@@ -32,7 +33,7 @@ Action::Retry::Strategy - Srategy role that any Action::Retry strategy should co
 
 =head1 VERSION
 
-version 0.15
+version 0.16
 
 =head1 AUTHOR
 
@@ -46,4 +47,3 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-

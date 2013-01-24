@@ -10,7 +10,7 @@ configure_requires:
   ExtUtils::MakeMaker: 6.30
   Module::Build: 0.3601
 dynamic_config: 0
-generated_by: 'Dist::Zilla version 4.300029, CPAN::Meta::Converter version 2.120630'
+generated_by: 'Dist::Zilla version 4.300028, CPAN::Meta::Converter version 2.120921'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -19,25 +19,25 @@ name: Action-Retry
 provides:
   Action::Retry:
     file: lib/Action/Retry.pm
-    version: 0.15
+    version: 0.16
   Action::Retry::Strategy:
     file: lib/Action/Retry/Strategy.pm
-    version: 0.15
+    version: 0.16
   Action::Retry::Strategy::Constant:
     file: lib/Action/Retry/Strategy/Constant.pm
-    version: 0.15
+    version: 0.16
   Action::Retry::Strategy::Fibonacci:
     file: lib/Action/Retry/Strategy/Fibonacci.pm
-    version: 0.15
+    version: 0.16
   Action::Retry::Strategy::HelperRole::RetriesLimit:
     file: lib/Action/Retry/Strategy/HelperRole/RetriesLimit.pm
-    version: 0.15
+    version: 0.16
   Action::Retry::Strategy::HelperRole::SleepTimeout:
     file: lib/Action/Retry/Strategy/HelperRole/SleepTimeout.pm
-    version: 0.15
+    version: 0.16
   Action::Retry::Strategy::Linear:
     file: lib/Action/Retry/Strategy/Linear.pm
-    version: 0.15
+    version: 0.16
 requires:
   Math::Fibonacci: 0
   Module::Runtime: 0
@@ -46,5 +46,6 @@ requires:
   Time::HiRes: 0
   namespace::autoclean: 0
 resources:
+  bugtracker: https://github.com/dams/Action-Retry/issues
   repository: git://github.com/dams/Action-Retry.git
-version: 0.15
+version: 0.16

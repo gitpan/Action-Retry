@@ -8,7 +8,7 @@
 #
 package Action::Retry;
 {
-  $Action::Retry::VERSION = '0.15';
+  $Action::Retry::VERSION = '0.16';
 }
 
 # ABSTRACT: Module to try to perform an action, with various ways of retrying and sleeping between retries.
@@ -16,6 +16,12 @@ package Action::Retry;
 use Module::Runtime qw(use_module);
 use Scalar::Util qw(blessed);
 use Time::HiRes qw(usleep gettimeofday);
+use Carp;
+
+use base 'Exporter';
+our @EXPORT_OK = qw(retry);
+# export by default if run from command line
+our @EXPORT = ((caller())[1] eq '-e' ? @EXPORT_OK : ());
 
 use namespace::autoclean;
 use Moo;
@@ -60,7 +66,7 @@ has strategy => (
         $class_name = $class_name =~ /^\+(.+)$/ ? $1 : "Action::Retry::Strategy::$class_name";
         return use_module($class_name)->new($constructor_params);
     },
-    isa => sub { $_[0]->does('Action::Retry::Strategy') or die 'Should consume the Action::Retry::Strategy role' },
+    isa => sub { $_[0]->does('Action::Retry::Strategy') or croak 'Should consume the Action::Retry::Strategy role' },
 );
 
 
@@ -126,10 +132,19 @@ sub run {
     }
 }
 
+sub retry (&;@) {
+    my $code = shift;
+    @_ % 2
+      and croak "arguments to retry must be a CodeRef, and an even number of key / values";
+    my %args = @_;
+    Action::Retry->new( attempt_code => $code, %args )->run();
+}
+
 
 1;
 
 __END__
+
 =pod
 
 =head1 NAME
@@ -138,39 +153,55 @@ Action::Retry - Module to try to perform an action, with various ways of retryin
 
 =head1 VERSION
 
-version 0.15
+version 0.16
 
 =head1 SYNOPSIS
-
-  use Action::Retry;
 
   # Simple usage, will attempt to run the code, retrying if it dies, retrying
   # 10 times max, sleeping 1 second between retries
 
-  Action::Retry->new( attempt_code => sub { ... } )->run();
+  # functional interface
+  use Action::Retry qw(retry);
+  retry { do_stuff };
+ 
+  # OO interface
+  use Action::Retry;
+  Action::Retry->new( attempt_code => sub { do_stuff; } )->run();
+
 
 
   # Same, but sleep time is doubling each time
 
+  # OO interface
   my $action = Action::Retry->new(
     attempt_code => sub { ... },
     strategy => 'Linear',
   );
   $action->run();
 
+  # functional interface
+  retry { ... } strategy => 'Linear';
+
+
 
   # Same, but sleep time is following the Fibonacci sequence
 
+  # OO interface
   my $action = Action::Retry->new(
     attempt_code => sub { ... },
     strategy => 'Fibonacci',
   );
   $action->run();
 
+  # functional interface
+  retry { ... } strategy => 'Fibonacci';
+
+
 
   # The code to check if the attempt succeeded can be customized. Strategies
   # can take arguments. Code on failure can be specified.
 
+  # OO way
   my $action = Action::Retry->new(
     attempt_code => sub { ... },
     retry_if_code => sub { $_[0] =~ /Connection lost/ || $_[1] > 20 },
@@ -183,9 +214,21 @@ version 0.15
   );
   $action->run();
 
+  # functional way
+  retry { ...}
+    retry_if_code => sub { ... },
+    strategy => { Fibonacci => { multiplicator => 2000,
+                                 initial_term_index => 3,
+                                 max_retries_number => 5,
+                               }
+                },
+    on_failure_code => sub { ... };
+
+
 
   # Retry code in non-blocking way
 
+  # OO way
   my $action = Action::Retry->new(
     attempt_code => sub { ...},
     non_blocking => 1,
@@ -196,6 +239,8 @@ version 0.15
     $action->run();
     # do something else while time goes on
   }
+
+  There is no functional way of doing that, for now.
 
 =head1 ATTRIBUTES
 
@@ -300,6 +345,28 @@ results back to the caller.
 
 =back
 
+=head1 SRATEGIES
+
+Here are the strategies currently included by default. Check their
+documentation for more details.
+
+=over
+
+=item L<Action::Retry::Strategy::Constant>
+
+Provides a simple constant sleep time strategy
+
+=item L<Action::Retry::Strategy::Fibonacci>
+
+Provides an incremental constant sleep time strategy following Fibonacci
+sequence
+
+=item L<Action::Retry::Strategy::Linear>
+
+Provides a linear incrementing sleep time strategy
+
+=back
+
 =head1 SEE ALSO
 
 I created this module because the other related modules I found didn't exactly
@@ -339,4 +406,3 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-
