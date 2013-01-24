@@ -8,7 +8,7 @@
 #
 package Action::Retry::Strategy::Linear;
 {
-  $Action::Retry::Strategy::Linear::VERSION = '0.16';
+  $Action::Retry::Strategy::Linear::VERSION = '0.17';
 }
 
 # ABSTRACT: Linear incrementation of sleep time strategy
@@ -81,7 +81,7 @@ Action::Retry::Strategy::Linear - Linear incrementation of sleep time strategy
 
 =head1 VERSION
 
-version 0.16
+version 0.17
 
 =head1 SYNOPSIS
 

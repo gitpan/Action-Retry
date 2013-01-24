@@ -8,7 +8,7 @@
 #
 package Action::Retry;
 {
-  $Action::Retry::VERSION = '0.16';
+  $Action::Retry::VERSION = '0.17';
 }
 
 # ABSTRACT: Module to try to perform an action, with various ways of retrying and sleeping between retries.
@@ -132,6 +132,7 @@ sub run {
     }
 }
 
+
 sub retry (&;@) {
     my $code = shift;
     @_ % 2
@@ -153,7 +154,7 @@ Action::Retry - Module to try to perform an action, with various ways of retryin
 
 =head1 VERSION
 
-version 0.16
+version 0.17
 
 =head1 SYNOPSIS
 
@@ -239,8 +240,6 @@ version 0.16
     $action->run();
     # do something else while time goes on
   }
-
-  There is no functional way of doing that, for now.
 
 =head1 ATTRIBUTES
 
@@ -344,6 +343,16 @@ arguments C<$error>, and the return values of C<attempt_code>, and returns the
 results back to the caller.
 
 =back
+
+=head2 retry
+
+  retry { ..code.. } some => 'arguments';
+
+Is equivalent to 
+
+  Action::Retry->new(attempt_code => sub { ..code.. }, some => arguments )->run();
+
+A functional interface, alternative to the OO interface.
 
 =head1 SRATEGIES
 

@@ -8,7 +8,7 @@
 #
 package Action::Retry::Strategy::HelperRole::SleepTimeout;
 {
-  $Action::Retry::Strategy::HelperRole::SleepTimeout::VERSION = '0.16';
+  $Action::Retry::Strategy::HelperRole::SleepTimeout::VERSION = '0.17';
 }
 
 # ABSTRACT: Helper to be consumed by Action::Retry Strategies, to enable giving up retrying when the sleep_time is too big
@@ -42,7 +42,7 @@ Action::Retry::Strategy::HelperRole::SleepTimeout - Helper to be consumed by Act
 
 =head1 VERSION
 
-version 0.16
+version 0.17
 
 =head1 AUTHOR
 
