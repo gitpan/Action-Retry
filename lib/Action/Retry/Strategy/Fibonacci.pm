@@ -8,7 +8,7 @@
 #
 package Action::Retry::Strategy::Fibonacci;
 {
-  $Action::Retry::Strategy::Fibonacci::VERSION = '0.13';
+  $Action::Retry::Strategy::Fibonacci::VERSION = '0.14';
 }
 
 # ABSTRACT: Fibonacci incrementation of sleep time strategy
@@ -86,7 +86,7 @@ Action::Retry::Strategy::Fibonacci - Fibonacci incrementation of sleep time stra
 
 =head1 VERSION
 
-version 0.13
+version 0.14
 
 =head1 SYNOPSIS
 
@@ -110,7 +110,7 @@ Term number of the Fibonacci sequence to start at. Defaults to 0
   ro, Int, defaults to 1000
 
 Number of milliseconds that will be multiplied by the fibonacci sequence term
-value. Defaults to 1000 ( 1 second)
+value. Defaults to 1000 ( 1 second )
 
 =head2 max_retries_number
 

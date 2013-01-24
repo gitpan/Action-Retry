@@ -8,7 +8,7 @@
 #
 package Action::Retry::Strategy;
 {
-  $Action::Retry::Strategy::VERSION = '0.13';
+  $Action::Retry::Strategy::VERSION = '0.14';
 }
 
 # ABSTRACT: Srategy role that any Action::Retry strategy should consume
@@ -32,7 +32,7 @@ Action::Retry::Strategy - Srategy role that any Action::Retry strategy should co
 
 =head1 VERSION
 
-version 0.13
+version 0.14
 
 =head1 AUTHOR
 
