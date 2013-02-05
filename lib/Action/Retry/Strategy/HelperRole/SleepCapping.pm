@@ -6,28 +6,32 @@
 # This is free software; you can redistribute it and/or modify it under
 # the same terms as the Perl 5 programming language system itself.
 #
-package Action::Retry::Strategy::HelperRole::SleepTimeout;
+package Action::Retry::Strategy::HelperRole::SleepCapping;
 {
-  $Action::Retry::Strategy::HelperRole::SleepTimeout::VERSION = '0.18';
+  $Action::Retry::Strategy::HelperRole::SleepCapping::VERSION = '0.18';
 }
 
-# ABSTRACT: Helper to be consumed by Action::Retry Strategies, to enable giving up retrying when the sleep_time is too big
+# ABSTRACT: Helper to be consumed by Action::Retry Strategies, to enable capping the sleep time
 
 use namespace::autoclean;
 use Moo::Role;
 
-has max_sleep_time => (
+use List::Util qw(min);
+
+has capped_sleep_time => (
     is => 'ro',
     lazy => 1,
     default => sub { undef },
 );
 
-around needs_to_retry => sub {
+around compute_sleep_time => sub {
     my $orig = shift;
     my $self = shift;
-    defined $self->max_sleep_time
-      or return $orig->($self, @_);
-    $orig->($self, @_) && $self->compute_sleep_time < $self->max_sleep_time
+    
+    return defined $self->capped_sleep_time
+      ? min($orig->($self, @_), $self->capped_sleep_time)
+      : $orig->($self, @_);
+
 };
 
 1;
@@ -37,7 +41,7 @@ __END__
 
 =head1 NAME
 
-Action::Retry::Strategy::HelperRole::SleepTimeout - Helper to be consumed by Action::Retry Strategies, to enable giving up retrying when the sleep_time is too big
+Action::Retry::Strategy::HelperRole::SleepCapping - Helper to be consumed by Action::Retry Strategies, to enable capping the sleep time
 
 =head1 VERSION
 

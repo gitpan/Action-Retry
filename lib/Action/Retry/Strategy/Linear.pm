@@ -8,7 +8,7 @@
 #
 package Action::Retry::Strategy::Linear;
 {
-  $Action::Retry::Strategy::Linear::VERSION = '0.17';
+  $Action::Retry::Strategy::Linear::VERSION = '0.18';
 }
 
 # ABSTRACT: Linear incrementation of sleep time strategy
@@ -72,7 +72,6 @@ sub needs_to_retry { 1 }
 1;
 
 __END__
-
 =pod
 
 =head1 NAME
@@ -81,7 +80,7 @@ Action::Retry::Strategy::Linear - Linear incrementation of sleep time strategy
 
 =head1 VERSION
 
-version 0.17
+version 0.18
 
 =head1 SYNOPSIS
 
@@ -106,15 +105,15 @@ two retries will double. If set to 1, it'll remain constant. Defaults to 2
 
   ro, Int|Undef, defaults to 10
 
-The number of times we should retry before giving up. If set to undef, will
-retry indefinitely
+The number of times we should retry before giving up. If set to undef, never
+stop retrying.
 
 =head2 max_sleep_time
 
   ro, Int|Undef, defaults to undef
 
 If Action::Retry is about to sleep more than this number ( in milliseconds ),
-stop retrying.
+stop retrying. If set to undef, never stop retrying.
 
 =head1 AUTHOR
 
@@ -128,3 +127,4 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
+

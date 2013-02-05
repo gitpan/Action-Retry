@@ -8,7 +8,7 @@
 #
 package Action::Retry::Strategy::HelperRole::RetriesLimit;
 {
-  $Action::Retry::Strategy::HelperRole::RetriesLimit::VERSION = '0.17';
+  $Action::Retry::Strategy::HelperRole::RetriesLimit::VERSION = '0.18';
 }
 
 # ABSTRACT: Helper to be consumed by Action::Retry Strategies, to enable giving up retrying after a number of retries
@@ -52,7 +52,6 @@ after reset => sub {
 1;
 
 __END__
-
 =pod
 
 =head1 NAME
@@ -61,7 +60,7 @@ Action::Retry::Strategy::HelperRole::RetriesLimit - Helper to be consumed by Act
 
 =head1 VERSION
 
-version 0.17
+version 0.18
 
 =head1 AUTHOR
 
@@ -75,3 +74,4 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
+

@@ -8,7 +8,7 @@
 #
 package Action::Retry;
 {
-  $Action::Retry::VERSION = '0.17';
+  $Action::Retry::VERSION = '0.18';
 }
 
 # ABSTRACT: Module to try to perform an action, with various ways of retrying and sleeping between retries.
@@ -84,7 +84,7 @@ has _needs_sleeping_until => (
 
 
 sub run {
-    my ($self) = @_;
+    my $self = shift;
 
     while(1) {
 
@@ -101,13 +101,13 @@ sub run {
         my @attempt_result;
           
         if (wantarray) {
-            @attempt_result = eval { $self->attempt_code->() };
+            @attempt_result = eval { $self->attempt_code->(@_) };
             $error = $@;
         } elsif ( ! defined wantarray ) {
-            eval { $self->attempt_code->() };
+            eval { $self->attempt_code->(@_) };
             $error = $@;
         } else {
-            my $scalar_result = eval { $self->attempt_code->() };
+            my $scalar_result = eval { $self->attempt_code->(@_) };
             $error = $@;
             @attempt_result = $scalar_result;
         }
@@ -118,7 +118,7 @@ sub run {
         if (! $self->strategy->needs_to_retry) {
             $self->strategy->reset;
             $self->has_on_failure_code
-              and return $self->on_failure_code->($@, @attempt_result);
+              and return $self->on_failure_code->(@_);
             return;
         }
 
@@ -145,7 +145,6 @@ sub retry (&;@) {
 1;
 
 __END__
-
 =pod
 
 =head1 NAME
@@ -154,7 +153,7 @@ Action::Retry - Module to try to perform an action, with various ways of retryin
 
 =head1 VERSION
 
-version 0.17
+version 0.18
 
 =head1 SYNOPSIS
 
@@ -171,14 +170,15 @@ version 0.17
 
 
 
-  # Same, but sleep time is doubling each time
+  # Same, but sleep time is doubling each time, and arguments passed to the
+  # attempted code
 
   # OO interface
   my $action = Action::Retry->new(
-    attempt_code => sub { ... },
+    attempt_code => sub { my ($num, $str) = @_; ... },
     strategy => 'Linear',
   );
-  $action->run();
+  $action->run(42, "foo");
 
   # functional interface
   retry { ... } strategy => 'Linear';
@@ -248,7 +248,7 @@ version 0.17
   ro, CodeRef, required
 
 The code to run to attempt doing the action. Will be evaluated taking care of
-the caller's context.
+the caller's context. It will receive parameters that were passed to C<run()>
 
 =head2 retry_if_code
 
@@ -270,7 +270,8 @@ Defaults to:
 
   ro, CodeRef, optional
 
-If given, the code to run when retries are given up.
+If given, the code to run when retries are given up. It will receive parameters
+that were passed to C<run()>
 
 =head2 strategy
 
@@ -344,6 +345,9 @@ results back to the caller.
 
 =back
 
+Arguments passed to C<run()> will be passed to C<attempt_code>. They will also
+passed to C<on_failure_code> as well if the case arises.
+
 =head2 retry
 
   retry { ..code.. } some => 'arguments';
@@ -415,3 +419,4 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
+

@@ -8,7 +8,7 @@
 #
 package Action::Retry::Strategy::Fibonacci;
 {
-  $Action::Retry::Strategy::Fibonacci::VERSION = '0.17';
+  $Action::Retry::Strategy::Fibonacci::VERSION = '0.18';
 }
 
 # ABSTRACT: Fibonacci incrementation of sleep time strategy
@@ -78,7 +78,6 @@ sub needs_to_retry { 1 }
 1;
 
 __END__
-
 =pod
 
 =head1 NAME
@@ -87,7 +86,7 @@ Action::Retry::Strategy::Fibonacci - Fibonacci incrementation of sleep time stra
 
 =head1 VERSION
 
-version 0.17
+version 0.18
 
 =head1 SYNOPSIS
 
@@ -96,7 +95,7 @@ To be used as strategy in L<Action::Retry>
 =head1 DESCRIPTION
 
 Sleeps incrementally by following the Fibonacci sequence : F(i) = F(i-1) +
-F(i-2) starting from 0,1.
+F(i-2) starting from 0,1. By default F(0) = 0, F(1) = 1, F(2) = 1, F(3) = 2
 
 =head1 ATTRIBUTES
 
@@ -117,14 +116,14 @@ value. Defaults to 1000 ( 1 second )
 
   ro, Int, defaults to 10
 
-The number of times we should retry before giving up
+The number of times we should retry before giving up. If set to undef, never stop retrying
 
 =head2 max_sleep_time
 
   ro, Int|Undef, defaults to undef
 
 If Action::Retry is about to sleep more than this number ( in milliseconds ),
-stop retrying.
+stop retrying. If set to undef, never stop retrying
 
 =head1 AUTHOR
 
@@ -138,3 +137,4 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
+

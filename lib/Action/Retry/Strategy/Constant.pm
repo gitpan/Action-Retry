@@ -8,7 +8,7 @@
 #
 package Action::Retry::Strategy::Constant;
 {
-  $Action::Retry::Strategy::Constant::VERSION = '0.17';
+  $Action::Retry::Strategy::Constant::VERSION = '0.18';
 }
 
 # ABSTRACT: Constant sleep time strategy
@@ -41,7 +41,6 @@ sub needs_to_retry { 1 }
 1;
 
 __END__
-
 =pod
 
 =head1 NAME
@@ -50,7 +49,7 @@ Action::Retry::Strategy::Constant - Constant sleep time strategy
 
 =head1 VERSION
 
-version 0.17
+version 0.18
 
 =head1 SYNOPSIS
 
@@ -68,8 +67,8 @@ The number of milliseconds to wait between retries
 
   ro, Int|Undef, defaults to 10
 
-The number of times we should retry before giving up. If set to undef, will
-retry indefinitely
+The number of times we should retry before giving up. If set to undef, never
+stop retrying
 
 =head1 AUTHOR
 
@@ -83,3 +82,4 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
+
