@@ -8,7 +8,7 @@
 #
 package Action::Retry::Strategy::HelperRole::SleepCapping;
 {
-  $Action::Retry::Strategy::HelperRole::SleepCapping::VERSION = '0.19';
+  $Action::Retry::Strategy::HelperRole::SleepCapping::VERSION = '0.20';
 }
 
 # ABSTRACT: Helper to be consumed by Action::Retry Strategies, to enable capping the sleep time
@@ -45,7 +45,7 @@ Action::Retry::Strategy::HelperRole::SleepCapping - Helper to be consumed by Act
 
 =head1 VERSION
 
-version 0.19
+version 0.20
 
 =head1 AUTHOR
 
