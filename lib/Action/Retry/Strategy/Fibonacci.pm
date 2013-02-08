@@ -8,7 +8,7 @@
 #
 package Action::Retry::Strategy::Fibonacci;
 {
-  $Action::Retry::Strategy::Fibonacci::VERSION = '0.18';
+  $Action::Retry::Strategy::Fibonacci::VERSION = '0.19';
 }
 
 # ABSTRACT: Fibonacci incrementation of sleep time strategy
@@ -86,7 +86,7 @@ Action::Retry::Strategy::Fibonacci - Fibonacci incrementation of sleep time stra
 
 =head1 VERSION
 
-version 0.18
+version 0.19
 
 =head1 SYNOPSIS
 

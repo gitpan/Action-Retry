@@ -15,6 +15,7 @@ lib/Action/Retry/Strategy/HelperRole/SleepCapping.pm
 lib/Action/Retry/Strategy/HelperRole/SleepTimeout.pm
 lib/Action/Retry/Strategy/Linear.pm
 t/00-compile.t
+t/check_params.t
 t/constant.t
 t/fibonacci.t
 t/linear.t

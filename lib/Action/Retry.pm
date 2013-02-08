@@ -8,7 +8,7 @@
 #
 package Action::Retry;
 {
-  $Action::Retry::VERSION = '0.18';
+  $Action::Retry::VERSION = '0.19';
 }
 
 # ABSTRACT: Module to try to perform an action, with various ways of retrying and sleeping between retries.
@@ -99,26 +99,34 @@ sub run {
 
         my $error;
         my @attempt_result;
+        my $attempt_result;
+        my $wantarray;
           
         if (wantarray) {
+            $wantarray = 1;
             @attempt_result = eval { $self->attempt_code->(@_) };
             $error = $@;
         } elsif ( ! defined wantarray ) {
             eval { $self->attempt_code->(@_) };
             $error = $@;
         } else {
-            my $scalar_result = eval { $self->attempt_code->(@_) };
+            $attempt_result = eval { $self->attempt_code->(@_) };
             $error = $@;
-            @attempt_result = $scalar_result;
         }
 
-        $self->retry_if_code->($error, @attempt_result)
-          or $self->strategy->reset, return @attempt_result;
+        my $h = { action_retry => $self,
+                  attempt_result => ( $wantarray ? \@attempt_result : $attempt_result ),
+                  attempt_parameters => \@_,
+                };
+
+
+        $self->retry_if_code->($error, $h )
+          or $self->strategy->reset, return ( $wantarray ? @attempt_result : $attempt_result );
 
         if (! $self->strategy->needs_to_retry) {
             $self->strategy->reset;
             $self->has_on_failure_code
-              and return $self->on_failure_code->(@_);
+              and return $self->on_failure_code->($error, $h);
             return;
         }
 
@@ -153,7 +161,7 @@ Action::Retry - Module to try to perform an action, with various ways of retryin
 
 =head1 VERSION
 
-version 0.18
+version 0.19
 
 =head1 SYNOPSIS
 
@@ -178,10 +186,10 @@ version 0.18
     attempt_code => sub { my ($num, $str) = @_; ... },
     strategy => 'Linear',
   );
-  $action->run(42, "foo");
+  my $result = $action->run(42, "foo");
 
   # functional interface
-  retry { ... } strategy => 'Linear';
+  retry { my ($num, $str) = @_;... } strategy => 'Linear';
 
 
 
@@ -254,24 +262,76 @@ the caller's context. It will receive parameters that were passed to C<run()>
 
   ro, CodeRef
 
-The code to run to check if we need to retry the action. It will be given as
-first argument, $@, then as following arguments the return values of the
-execution of C<attempt_code>.
-
-True return value means the execution of C<attempt_code> was a failure and it
-needs to be retried. False means it went well.
-
-Defaults to:
+The code to run to check if we need to retry the action. It defaults to:
 
   # Returns true if there were an exception evaluating to something true
   sub { $_[0] }
+
+It will be given these arguments:
+
+=over
+
+=item * 
+
+as first argument, a scalar which is the value of any exception that were
+raised by the C<attempt_code>. Otherwise, undef.
+
+=item *
+
+as second argument, a HashRef, which contains these keys:
+
+=over
+
+=item action_retry
+
+it's a reference on the ActionRetry instance. That way you can have access to
+the strategy and other attributes.
+
+=item attempt_result
+
+It's a scalar, which is the result of C<attempt_code>. If C<attempt_code>
+returned a list, then the scalar is the reference on this list.
+
+=item attempt_parameters
+
+It's the reference on the parameters that were given to C<attempt_code>.
+
+=back
+
+=back
+
+C<retry_if_code> return value will be interpreted as a boolean : true return
+value means the execution of C<attempt_code> was a failure and it needs to be
+retried. False means it went well.
+
+Here is an example of code that gets the arguments properly:
+
+  my $action = Action::Retry->new(
+    attempt_code => sub { do_stuff; } )->run();
+    attempt_code => sub { map { $_ * 2 } @_ }
+    retry_if_code => sub {
+      my ($error, $h) = @_;
+
+      my $attempt_code_result = $h->{attempt_code_result};
+      my $attempt_code_params = $h->{attempt_code_params};
+
+      my @results = @$attempt_code_result;
+      # will contains (2, 4);
+
+      my @original_parameters = @$attempt_code_params;
+      # will contains (1, 2);
+
+    }
+  );
+  my @results = $action->run(1, 2);
 
 =head2 on_failure_code
 
   ro, CodeRef, optional
 
-If given, the code to run when retries are given up. It will receive parameters
-that were passed to C<run()>
+If given, will be executed when retries are given up.
+
+It will be given the same arguments as C<retry_if_code>. See C<retry_if_code> for their descriptions
 
 =head2 strategy
 
