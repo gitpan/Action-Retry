@@ -8,7 +8,7 @@
 #
 package Action::Retry::Strategy::Fibonacci;
 {
-  $Action::Retry::Strategy::Fibonacci::VERSION = '0.20';
+  $Action::Retry::Strategy::Fibonacci::VERSION = '0.21';
 }
 
 # ABSTRACT: Fibonacci incrementation of sleep time strategy
@@ -28,7 +28,6 @@ with 'Action::Retry::Strategy::HelperRole::SleepTimeout';
 has initial_term_index => (
     is => 'ro',
     lazy => 1,
-    init_arg => undef,
     default => sub { 0 },
 );
 
@@ -86,7 +85,7 @@ Action::Retry::Strategy::Fibonacci - Fibonacci incrementation of sleep time stra
 
 =head1 VERSION
 
-version 0.20
+version 0.21
 
 =head1 SYNOPSIS
 

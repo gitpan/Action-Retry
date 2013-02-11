@@ -8,7 +8,7 @@
 #
 package Action::Retry;
 {
-  $Action::Retry::VERSION = '0.20';
+  $Action::Retry::VERSION = '0.21';
 }
 
 # ABSTRACT: Module to try to perform an action, with various ways of retrying and sleeping between retries.
@@ -161,7 +161,7 @@ Action::Retry - Module to try to perform an action, with various ways of retryin
 
 =head1 VERSION
 
-version 0.20
+version 0.21
 
 =head1 SYNOPSIS
 

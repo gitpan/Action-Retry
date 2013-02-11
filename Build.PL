@@ -20,7 +20,7 @@ my %module_build_args = (
     "Damien \"dams\" Krotkine"
   ],
   "dist_name" => "Action-Retry",
-  "dist_version" => "0.20",
+  "dist_version" => "0.21",
   "license" => "perl",
   "module_name" => "Action::Retry",
   "recommends" => {},
