@@ -8,7 +8,7 @@
 #
 package Action::Retry;
 {
-  $Action::Retry::VERSION = '0.21';
+  $Action::Retry::VERSION = '0.22';
 }
 
 # ABSTRACT: Module to try to perform an action, with various ways of retrying and sleeping between retries.
@@ -23,7 +23,6 @@ our @EXPORT_OK = qw(retry);
 # export by default if run from command line
 our @EXPORT = ((caller())[1] eq '-e' ? @EXPORT_OK : ());
 
-use namespace::autoclean;
 use Moo;
 
 
@@ -121,7 +120,7 @@ sub run {
 
 
         $self->retry_if_code->($error, $h )
-          or $self->strategy->reset, return ( $wantarray ? @attempt_result : $attempt_result );
+          or $self->strategy->reset, $@ = $error, return ( $wantarray ? @attempt_result : $attempt_result );
 
         if (! $self->strategy->needs_to_retry) {
             $self->strategy->reset;
@@ -153,7 +152,10 @@ sub retry (&;@) {
 1;
 
 __END__
+
 =pod
+
+=encoding UTF-8
 
 =head1 NAME
 
@@ -161,7 +163,7 @@ Action::Retry - Module to try to perform an action, with various ways of retryin
 
 =head1 VERSION
 
-version 0.21
+version 0.22
 
 =head1 SYNOPSIS
 
@@ -479,4 +481,3 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-

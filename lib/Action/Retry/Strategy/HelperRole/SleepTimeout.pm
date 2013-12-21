@@ -8,7 +8,7 @@
 #
 package Action::Retry::Strategy::HelperRole::SleepTimeout;
 {
-  $Action::Retry::Strategy::HelperRole::SleepTimeout::VERSION = '0.21';
+  $Action::Retry::Strategy::HelperRole::SleepTimeout::VERSION = '0.22';
 }
 
 # ABSTRACT: Helper to be consumed by Action::Retry Strategies, to enable giving up retrying when the sleep_time is too big
@@ -33,7 +33,10 @@ around needs_to_retry => sub {
 1;
 
 __END__
+
 =pod
+
+=encoding UTF-8
 
 =head1 NAME
 
@@ -41,7 +44,7 @@ Action::Retry::Strategy::HelperRole::SleepTimeout - Helper to be consumed by Act
 
 =head1 VERSION
 
-version 0.21
+version 0.22
 
 =head1 AUTHOR
 
@@ -55,4 +58,3 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-

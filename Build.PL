@@ -7,9 +7,7 @@ use Module::Build 0.3601;
 
 my %module_build_args = (
   "build_requires" => {
-    "Module::Build" => "0.3601",
-    "Test::Most" => 0,
-    "Test::Pretty" => 0
+    "Module::Build" => "0.3601"
   },
   "configure_requires" => {
     "ExtUtils::MakeMaker" => "6.30",
@@ -20,7 +18,7 @@ my %module_build_args = (
     "Damien \"dams\" Krotkine"
   ],
   "dist_name" => "Action-Retry",
-  "dist_version" => "0.21",
+  "dist_version" => "0.22",
   "license" => "perl",
   "module_name" => "Action::Retry",
   "recommends" => {},
@@ -30,12 +28,31 @@ my %module_build_args = (
     "Module::Runtime" => 0,
     "Moo" => 0,
     "Scalar::Util" => 0,
-    "Time::HiRes" => 0,
-    "namespace::autoclean" => 0
+    "Time::HiRes" => 0
   },
-  "script_files" => []
+  "script_files" => [],
+  "test_requires" => {
+    "File::Spec" => 0,
+    "IO::Handle" => 0,
+    "IPC::Open3" => 0,
+    "Test::More" => 0
+  }
 );
 
+
+my %fallback_build_requires = (
+  "File::Spec" => 0,
+  "IO::Handle" => 0,
+  "IPC::Open3" => 0,
+  "Module::Build" => "0.3601",
+  "Test::More" => 0
+);
+
+
+unless ( eval { Module::Build->VERSION(0.4004) } ) {
+  delete $module_build_args{test_requires};
+  $module_build_args{build_requires} = \%fallback_build_requires;
+}
 
 my $build = Module::Build->new(%module_build_args);
 

@@ -8,7 +8,7 @@
 #
 package Action::Retry::Strategy::Fibonacci;
 {
-  $Action::Retry::Strategy::Fibonacci::VERSION = '0.21';
+  $Action::Retry::Strategy::Fibonacci::VERSION = '0.22';
 }
 
 # ABSTRACT: Fibonacci incrementation of sleep time strategy
@@ -77,7 +77,10 @@ sub needs_to_retry { 1 }
 1;
 
 __END__
+
 =pod
+
+=encoding UTF-8
 
 =head1 NAME
 
@@ -85,7 +88,7 @@ Action::Retry::Strategy::Fibonacci - Fibonacci incrementation of sleep time stra
 
 =head1 VERSION
 
-version 0.21
+version 0.22
 
 =head1 SYNOPSIS
 
@@ -136,4 +139,3 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-

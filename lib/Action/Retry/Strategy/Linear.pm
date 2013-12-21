@@ -8,7 +8,7 @@
 #
 package Action::Retry::Strategy::Linear;
 {
-  $Action::Retry::Strategy::Linear::VERSION = '0.21';
+  $Action::Retry::Strategy::Linear::VERSION = '0.22';
 }
 
 # ABSTRACT: Linear incrementation of sleep time strategy
@@ -72,7 +72,10 @@ sub needs_to_retry { 1 }
 1;
 
 __END__
+
 =pod
+
+=encoding UTF-8
 
 =head1 NAME
 
@@ -80,7 +83,7 @@ Action::Retry::Strategy::Linear - Linear incrementation of sleep time strategy
 
 =head1 VERSION
 
-version 0.21
+version 0.22
 
 =head1 SYNOPSIS
 
@@ -127,4 +130,3 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-
