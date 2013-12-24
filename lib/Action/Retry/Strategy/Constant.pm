@@ -8,12 +8,11 @@
 #
 package Action::Retry::Strategy::Constant;
 {
-  $Action::Retry::Strategy::Constant::VERSION = '0.22';
+  $Action::Retry::Strategy::Constant::VERSION = '0.23';
 }
 
 # ABSTRACT: Constant sleep time strategy
 
-use namespace::autoclean;
 use Moo;
 
 
@@ -44,15 +43,13 @@ __END__
 
 =pod
 
-=encoding UTF-8
-
 =head1 NAME
 
 Action::Retry::Strategy::Constant - Constant sleep time strategy
 
 =head1 VERSION
 
-version 0.22
+version 0.23
 
 =head1 SYNOPSIS
 

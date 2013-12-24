@@ -8,12 +8,11 @@
 #
 package Action::Retry::Strategy;
 {
-  $Action::Retry::Strategy::VERSION = '0.22';
+  $Action::Retry::Strategy::VERSION = '0.23';
 }
 
 # ABSTRACT: Srategy role that any Action::Retry strategy should consume
 
-use namespace::autoclean;
 use Moo::Role;
 
 requires 'needs_to_retry';
@@ -27,15 +26,13 @@ __END__
 
 =pod
 
-=encoding UTF-8
-
 =head1 NAME
 
 Action::Retry::Strategy - Srategy role that any Action::Retry strategy should consume
 
 =head1 VERSION
 
-version 0.22
+version 0.23
 
 =head1 AUTHOR
 

@@ -8,12 +8,11 @@
 #
 package Action::Retry::Strategy::HelperRole::SleepCapping;
 {
-  $Action::Retry::Strategy::HelperRole::SleepCapping::VERSION = '0.22';
+  $Action::Retry::Strategy::HelperRole::SleepCapping::VERSION = '0.23';
 }
 
 # ABSTRACT: Helper to be consumed by Action::Retry Strategies, to enable capping the sleep time
 
-use namespace::autoclean;
 use Moo::Role;
 
 use List::Util qw(min);
@@ -40,15 +39,13 @@ __END__
 
 =pod
 
-=encoding UTF-8
-
 =head1 NAME
 
 Action::Retry::Strategy::HelperRole::SleepCapping - Helper to be consumed by Action::Retry Strategies, to enable capping the sleep time
 
 =head1 VERSION
 
-version 0.22
+version 0.23
 
 =head1 AUTHOR
 

@@ -8,12 +8,11 @@
 #
 package Action::Retry::Strategy::Linear;
 {
-  $Action::Retry::Strategy::Linear::VERSION = '0.22';
+  $Action::Retry::Strategy::Linear::VERSION = '0.23';
 }
 
 # ABSTRACT: Linear incrementation of sleep time strategy
 
-use namespace::autoclean;
 use Moo;
 
 
@@ -75,15 +74,13 @@ __END__
 
 =pod
 
-=encoding UTF-8
-
 =head1 NAME
 
 Action::Retry::Strategy::Linear - Linear incrementation of sleep time strategy
 
 =head1 VERSION
 
-version 0.22
+version 0.23
 
 =head1 SYNOPSIS
 
