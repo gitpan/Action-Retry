@@ -1,7 +1,7 @@
 
 
 This archive contains the distribution Action-Retry,
-version 0.23:
+version 0.24:
 
   Module to try to perform an action, with various ways of retrying and sleeping between retries.
 

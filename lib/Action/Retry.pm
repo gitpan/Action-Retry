@@ -8,7 +8,7 @@
 #
 package Action::Retry;
 {
-  $Action::Retry::VERSION = '0.23';
+  $Action::Retry::VERSION = '0.24';
 }
 
 # ABSTRACT: Module to try to perform an action, with various ways of retrying and sleeping between retries.
@@ -51,7 +51,7 @@ has on_failure_code => (
 
 has strategy => (
     is => 'ro',
-    defaults => sub { 'Constant' },
+    default => sub { 'Constant' },
     coerce => sub {
         my $attr = $_[0];
         blessed($attr)
@@ -155,13 +155,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 Action::Retry - Module to try to perform an action, with various ways of retrying and sleeping between retries.
 
 =head1 VERSION
 
-version 0.23
+version 0.24
 
 =head1 SYNOPSIS
 
